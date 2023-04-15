@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <% for(var i=0; i< message.length; i++) { %>
+          <li>
+            <b><%= message[i].name %></b>
+            <b><%= message[i].price %></b>
+        </li>
+        <% } %>
+    </ul>
+    <form method="POST" action="/submit-form">
+        <input type="text" id="inputData" name="inputData">
+        <button type="submit">Submit</button>
+    </form>      
+</body>
+</html>
