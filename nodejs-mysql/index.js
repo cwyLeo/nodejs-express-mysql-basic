@@ -19,15 +19,22 @@ connection.connect((err) => {
     console.log('Connected to MySQL database!');
 });
 // 查询car表中的所有数据并返回
-var dict = ""  
+var dict = ""
+var buy = []
+var sum = 0  
 connection.query('SELECT * FROM car', (err, results) => {
     if (err) throw err;
     dict = results
     console.log(results);
 });
-// 定义进入127.0.0.1:3000时直接进入index.ejs界面
-app.get('/', (req, res) => {
-  const data = { message: dict };
+// 定义进入127.0.0.1:3000/index时直接进入index.ejs界面
+app.get('/index', (req, res) => {
+  const addgood = req.query.goods;
+  const price = req.query.price;
+  // console.log(sum)
+  buy.push(addgood);
+  sum += parseInt(price);
+  const data = { message: dict, goods:buy, sum:sum };
   res.render('index.ejs', data);
 });
 // 正常函数若非异步，定义如下：

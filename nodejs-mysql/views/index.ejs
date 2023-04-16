@@ -6,20 +6,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../style.css">
     <title>Document</title>
+    <style>
+    a:link, a:visited {
+     text-decoration:none;
+     color:blue
+ }
+ #nav {
+     margin-top: 25px auto;
+     display: flex;
+     justify-content:space-between;
+     align-items: center;
+     text-align: center;
+     background-color: rgb(225, 225, 225);
+ }
+ #nav li {
+     position: relative;
+     display: inline-block;
+     vertical-align: middle;
+     font-weight: bold;
+     padding: 0px 10px;
+     flex-grow: 1;
+ }
+ #nav>li>ul {
+     text-align: center;
+     width: 100%;
+     display: none;
+     position: absolute;
+     /* top: 24px; */
+     /* margin-top: 4px; */
+     border-top: 2px solid white;
+     left: 2px;
+     padding: 5px 0px;
+     background-color: rgb(225, 225, 225);
+ }
+#nav>li:hover>ul{
+ display:flex;
+ justify-content: space-between;
+ align-items: center;
+ flex-direction: column;
+}
+ #nav>li>ul>li {
+     /* padding: 5px; */
+     flex-grow: 1;
+ }
+ .home {
+     background: url("../images/home.gif");
+     display: inline-block;
+     background-position-y: -3px;
+     width: 30px;
+     height: 30px;
+ }
+    </style>
 </head>
 <body>
-    <ul>
-        <% for(var i=0; i< message.length; i++) { %>
-          <li>
-            <b><%= message[i].name %></b>
-            <b><%= message[i].price %></b>
-            <!-- <b><%= message[i].size %></b> -->
+    <ul id="nav">
+        <!-- <li><a href="index.htm"><span class="home">&nbsp;&nbsp;&nbsp;</span></a> -->
         </li>
+        <li><a href="zdgk/index.htm"><span>首页</span></a>
+            <ul> <li><a href="zdgk/zdgk01/index.htm">天猫</a></li>
+                 <li><a href="zdgk/zdgk02/index.htm">京东</a></li>
+                 <li><a href="zdgk/zdgk03/index.htm">淘宝</a></li>
+                 <li><a href="zdgk/zdgk04/index.htm">唯品会</a></li>
+                 <li><a href="zdgk/zdgk06/index.htm">拼多多</a></li>
+                 <li><a href="zdgk/zdgk07/index.htm">小红书</a></li>
+                 <li><a href="zdgk/zdgk05/index.htm">闲鱼</a></li>
+                 <!-- <li><a href="zdgk/zdgk08/index.htm">中大图志</a></li> -->
+           </ul>
+        </li>
+        <li><a href="yx/index.htm"><span>页面介绍</span></a>
+        </li>
+        <li><a href="xksz/index.htm"><span>购物分类</span></a>
+           <ul>
+              <li><a href="xksz/xksz01/index.htm">日用品</a></li>
+              <li><a href="xksz/xksz02/index.htm">饮食</a></li>
+              <li><a href="xksz/xksz03/index.htm">电子产品</a></li>
+           </ul>
+        </li>
+        <li><a href="jyjx/index.htm"><span>加入我们</span></a>
+           <ul>
+              <li><a href="jyjx/jyjx01/index.htm">本科教育</a></li>
+              <li><a href="jyjx/jyjx02/index.htm">研究生教育</a></li>
+              <li><a href="jyjx/jyjx03/index.htm">国际教育</a></li>
+              <li><a href="jyjx/jyjx04/index.htm">继续教育</a></li>
+           </ul>
+        </li>
+        <li><a href="xyjj/index.htm"><span>校友与基金</span></a>
+        </li>
+        <li>
+            <form method="POST" action="/submit-form">
+                <input type="text" id="inputData" name="inputData">
+                <button type="submit">Submit</button>
+            </form>
+        </li>
+       </ul>
+    <ul class="goodslist">
+        <% for(var i=0; i< message.length; i++) { %>
+        <form action="/index" method="GET">
+          <li class="musicbox">
+            <input class="goods" name="goods"value="<%= message[i].name %>" readonly>
+            <input type="number" class="musicname" value="<%= message[i].price %>" name="price" readonly>
+            <b class="musicname"><%= message[i].size %></b>
+            <button type="submit" class="add">+</button>
+        </li>
+    </form>
         <% } %>
     </ul>
-    <form method="POST" action="/submit-form">
-        <input type="text" id="inputData" name="inputData">
-        <button type="submit">Submit</button>
-    </form>
+    <ul class="musicbox" style="clear:both; position: absolute; display:block; width:99%; margin:10px 0.5%; align-items: center; bottom: 0;">
+        <% for(var i=0; i< goods.length; i++) { %>
+            <li><%= goods[i] %></li>
+        <% } %>
+        <div><%= sum %></div>
+    </ul>
+    
 </body>
+<script>
+    function addgoods(str){
+        console.log(str);
+    }
+</script>
 </html>

@@ -5,3 +5,62 @@
 ul{
     list-style: none;
 }
+li{
+    display: inline-block;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.goodslist{
+    width: 1208px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    text-align: center;
+    /* flex-wrap:wrap; */
+    flex-flow: wrap;
+}
+.musicbox{
+    display: inline-block;
+    /* display: flexbox;
+    flex-direction: row; */
+    /* float: left; */
+    /* width: 120px; */
+    height: 166px;
+    border: 1px solid pink;
+    margin-left: 3px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    flex-grow: 1;
+    text-align: center;
+}
+.sub2{
+    height: 100px;
+}
+.musicname,.goods{
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    width: 120px;
+}
+.add{
+    position: relative;
+    float: right;
+    top: -45px;
+    /* display: inline-block; */
+    /* right: -146px; */
+    /* top: -160px; */
+    border-radius: 50%;
+    background-color: pink;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+    font-size: 15px;
+}
+.imgs{
+    float: left;
+    /* height: 135px; */
+    width: 135px;
+}
