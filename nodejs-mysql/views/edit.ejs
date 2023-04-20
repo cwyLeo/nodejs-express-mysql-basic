@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <title>Edition</title>
+    <style>
+        a:link, a:visited {
+         text-decoration:none;
+         color:blue
+     }
+     #nav {
+         /* margin-top: 25px auto; */
+         display:flexbox;
+         float: left;
+         flex-direction: column;
+         justify-content:space-between;
+         align-items: center;
+         text-align: center;
+         width: 150px;
+         /* height: 32px; */
+         background-color: rgb(225, 225, 225);
+     }
+     #nav li {
+         /* position: relative; */
+         display: inline-block;
+         vertical-align: middle;
+         font-weight: bold;
+         padding: 0px 10px;
+         height: 32px;
+         width: 130px;
+         flex-grow: 1;
+         transition: 0.5s;
+     }
+     #nav li ul {
+         text-align: center;
+         /* width: 250px; */
+         height: 150px;
+         display: none;
+         position: absolute;
+         top: 0;
+         /* margin-top: 4px; */
+         /* border-top: 2px solid white; */
+         left: 150px;
+         padding: 5px 0px;
+         background-color: rgb(225, 225, 225);
+     }
+    #nav li:hover{
+        background-color: #fff;
+    }
+    #nav li:hover ul{
+     display:flex;
+     position: absolute;
+     top: 0;
+     justify-content: space-between;
+     align-items: center;
+     flex-direction: column;
+    }
+     #nav li ul li {
+        /* width: 24px; */
+         /* padding: 5px; */
+         flex-grow: 1;
+     }
+     /* .home {
+         background: url("../images/home.gif");
+         display: inline-block;
+         background-position-y: -3px;
+         width: 30px;
+         height: 30px;
+     } */
+        </style>
+</head>
+<body>
+    <ul id="nav">
+        <li><a href="zdgk/index.htm"><span>首页</span></a>
+            <ul> <li><a href="zdgk/zdgk01/index.htm">天猫</a></li>
+                 <li><a href="zdgk/zdgk02/index.htm">京东</a></li>
+                 <li><a href="zdgk/zdgk03/index.htm">淘宝</a></li>
+                 <li><a href="zdgk/zdgk04/index.htm">唯品会</a></li>
+                 <li><a href="zdgk/zdgk06/index.htm">拼多多</a></li>
+                 <li><a href="zdgk/zdgk07/index.htm">小红书</a></li>
+                 <li><a href="zdgk/zdgk05/index.htm">闲鱼</a></li>
+                 <!-- <li><a href="zdgk/zdgk08/index.htm">中大图志</a></li> -->
+           </ul>
+        </li>
+        <li><a href="yx/index.htm"><span>页面介绍</span></a>
+        </li>
+        <li><a href="xksz/index.htm"><span>购物分类</span></a>
+           <ul>
+              <li><a href="xksz/xksz01/index.htm">日用品</a></li>
+              <li><a href="xksz/xksz02/index.htm">饮食</a></li>
+              <li><a href="xksz/xksz03/index.htm">电子产品</a></li>
+           </ul>
+        </li>
+        <li><a href="jyjx/index.htm"><span>加入我们</span></a>
+           <ul>
+              <li><a href="jyjx/jyjx01/index.htm">本科教育</a></li>
+              <li><a href="jyjx/jyjx02/index.htm">研究生教育</a></li>
+              <li><a href="jyjx/jyjx03/index.htm">国际教育</a></li>
+              <li><a href="jyjx/jyjx04/index.htm">继续教育</a></li>
+           </ul>
+        </li>
+        <li><a href="xyjj/index.htm"><span>校友与基金</span></a>
+        </li>
+       </ul>
+       <table style="float: none; width: calc(100% - 150px); text-align: center; table-layout: fixed;" border="1">
+        <tr>
+            <th colspan="5">cars</th>
+        </tr>
+        <tr>
+            <% /* 遍历对象属性 */ for(key in cars[0]){ %>
+                <td><%= key %></td>
+                <% } %>
+            <td>操作</td>
+        </tr>
+        <% /* 开始循环 */ for(var i=0;i < cars.length;i++){ %>
+        <tr id="row<%= i %>">
+            <% /* 遍历对象属性 */ for(key in cars[i]){ %>
+            <td><%= cars[i][key] %></td>
+            <% } %>
+            <td>
+                <form action="/delete2" method="get" style="display: inline-block;">
+                    <input type="text" name="id" value="<%= cars[i].name %>" style="display: none;">
+                    <button type="submit">删除</button>
+                </form>
+                <button onclick="editRow(this,'row<%= i %>')">编辑</button>
+            </td>
+        </tr>
+        <% /* 结束循环 */ } %>
+    </table>    
+    <form id="edit-form" action="/edit" method="post" style="display: none;">
+        <% /* 遍历对象属性 */ for(key in cars[0]){ %>
+            <input type="text" name="<%= key %>">
+        <% } %>
+    </form>
+</body>
+<script>
+// const submitBtn = document.getElementById('submit-btn');
+// submitBtn.addEventListener('click', function(e) {
+//   e.preventDefault(); // 防止按钮默认行为
+//   document.getElementById('form-id').submit(); // 手动提交表单
+// });
+function editRow(button,rowId) {
+    var inputElement = document.createElement("input");
+    inputElement.setAttribute("type", "text");
+    inputElement.style.width = "40px";
+    const row = document.getElementById(rowId);
+    if(button.innerText=="编辑"){
+        for(var i = 0;i < row.cells.length - 1;i++){
+            var value = row.cells[i].textContent;
+            var cloneNode = inputElement.cloneNode(true);
+            cloneNode.setAttribute("value",value);
+            row.cells[i].innerText = "";
+            row.cells[i].appendChild(cloneNode);
+            button.innerText = "保存";
+        }
+    }
+    else{
+        const form = document.getElementById('edit-form');
+        for(var i = 0;i < row.cells.length - 1;i++){
+            var value = row.cells[i].firstElementChild.value;
+            // var cloneNode = inputElement.cloneNode(true);
+            // cloneNode.setAttribute("value",value);
+            row.cells[i].innerText = value;
+            // row.cells[i].appendChild(cloneNode);
+            button.innerText = "编辑";
+            form.elements[i].value = value;
+        }
+        form.submit();
+    }
+}
+</script>
+</html>

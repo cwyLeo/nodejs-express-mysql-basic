@@ -99,6 +99,7 @@
             </form>
         </li>
        </ul>
+       <%= userid %><%= username %>
     <ul class="goodslist">
         <% for(var i=0; i< message.length; i++) { %>
         <form action="/index" method="GET">
@@ -115,15 +116,15 @@
         <% for(var i=0; i< goods.length; i++) { %>
             <form action="/delete" method="get">
             <input style="display: inline;" type="text" name="goods" value="<%= goods[i] %>" readonly>
-            <input style="display: none;" type="number" value="<%= message[i].price %>" name="price" readonly>
-            <button onclick="changestat()"></button>
+            <input style="display: none;" type="number" value="<%= prices[i] %>" name="price" readonly>
+            <!-- <button onclick="changestat()"></button> -->
             <button type="submit">-</button>
             </form>
 
         <% } %>
         <div><%= sum %></div>
     </ul>
-    <a href="/other">to other</a>
+    <a href="/other">to change.html</a>
 </body>
 <script>
     

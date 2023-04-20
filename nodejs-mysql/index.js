@@ -21,30 +21,70 @@ connection.connect((err) => {
 // 查询car表中的所有数据并返回
 var dict = ""
 var buy = []
-var sum = 0  
+var prices = []
+var sum = 0
+var username = ""
+var userid = ""  
 connection.query('SELECT * FROM car', (err, results) => {
     if (err) throw err;
     dict = results
     console.log(results);
 });
+app.get('/',(req,res) => {
+  res.render('login.ejs');
+});
+app.post('/login',async (req,res) => {
+  username = req.body.username;
+  userid = req.body.pwd;
+  const result = await querycust(username,userid);
+  buy = []
+  prices = []
+  sum = 0
+  if(result.length != 0){
+    res.render('index.ejs',{message:dict,goods:buy,prices:prices,sum:String(sum),userid:userid,username:username})
+  }
+  else{
+    res.redirect('/')
+  }
+})
 // 定义进入127.0.0.1:3000/index时直接进入index.ejs界面
 app.get('/index', (req, res) => {
   const addgood = req.query.goods;
   const price = req.query.price;
   // console.log(sum)
   buy.push(addgood);
+  prices.push(price);
   sum += parseInt(price);
-  const data = { message: dict, goods:buy, sum:String(sum) };
+  const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
   res.render('index.ejs', data);
 });
 app.get('/delete', (req, res) => {
   const addgood = req.query.goods;
   const price = req.query.price;
-  buy.pop(addgood);
+  buy.splice(buy.indexOf(addgood),1);
+  prices.splice(prices.indexOf(price),1);
   sum -= parseInt(price);
-  const data = { message: dict, goods:buy, sum:String(sum) };
+  const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
   res.render('index.ejs', data);
 });
+app.get('/delete2', async (req, res) => {
+  const name = req.query.id;
+  const deletePromise =await deleteCar(name);
+  const queryPromise =await queryAllCar();
+  res.render('edit.ejs',{username:username,userid:userid,cars:queryPromise})
+});
+
+app.get('/other',(req,res) => {
+    res.render('edit.ejs',{username:username,userid:userid,cars:dict});
+})
+app.post('/edit',async (req,res) => {
+  connection.query('update car set name = "'+ req.body.name +'" , price = "'+ req.body.price +'" , brand = "'+ req.body.brand +'" , size = "'+ req.body.size +'" where name = "' + req.body.name + '"', (err, results) => {
+    if (err) throw err;
+    // console.log(results);
+  });
+  var result = await queryAllCar();
+  res.render('edit.ejs',{username:username,userid:userid,cars:result})
+})
 // 正常函数若非异步，定义如下：
 function update(){
   var a = 1;
@@ -52,9 +92,33 @@ function update(){
   return a;
 }
 // 查询car表中特定size的汽车函数，注意connection是全局变量，此处注意要使用Promise解决异步函数的回调地狱问题，resolve可以传递查询结果
+function queryAllCar() {
+  return new Promise((resolve, reject) => {
+    connection.query('SELECT * FROM car', (err, results) => {
+      if (err) reject(err);
+      resolve(results);
+    });
+  });
+}
 function querycar(str) {
     return new Promise((resolve, reject) => {
       connection.query('SELECT * FROM car where size = ' + '"' + str + '"', (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  }
+  function querycust(name,id) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM customer where name = ' + '"' + name + '" and id = ' + '"' + id + '"', (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  }
+  function deleteCar(id) {
+    return new Promise((resolve, reject) => {
+      connection.query('delete FROM car where name = ?',[id], (err, results) => {
         if (err) reject(err);
         resolve(results);
       });

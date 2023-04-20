@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <style>
+     #msgbox1 { 
+        position:fixed;
+        border: solid 1px black;
+		background-color: rgb(225, 225, 225);
+        box-sizing:border-box;
+        width:20em;
+        padding: 5px;
+        }
+        #msgbox1 label{
+            display: block;
+            padding: 12px;
+            font-size: 20px;
+        }
+        #msgbox1 button{
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+    </style>
+</head>
+<div id="msgbox1">
+    <form action="/login" method="post">
+        <label for="user">username:<input type="text" name="username"></label>
+        <label for="pwd">password:<input type="password" name="pwd"></label>
+        <button type="submit">登录</button>
+    </form>
+</div>  
+<script>  
+    function pos(){
+        var msgbox=document.getElementById("msgbox1");
+        msgbox.style.left = (document.documentElement.clientWidth/2-msgbox.clientWidth/2)+"px"
+        msgbox.style.top = (document.documentElement.clientHeight/2-msgbox.clientHeight/2)+"px"
+    }
+    pos();                   //用于一显示就定位
+    window.onresize=pos;     //用于窗口变化时自动定位
+</script>
+</html>
