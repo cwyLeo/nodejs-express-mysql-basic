@@ -113,15 +113,25 @@
     </ul>
     <ul class="musicbox" style="clear:both; position: absolute; display:block; width:99%; margin:10px 0.5%; align-items: center; bottom: 0;">
         <% for(var i=0; i< goods.length; i++) { %>
-            <li><%= goods[i] %></li>
+            <form action="/delete" method="get">
+            <input style="display: inline;" type="text" name="goods" value="<%= goods[i] %>" readonly>
+            <input style="display: none;" type="number" value="<%= message[i].price %>" name="price" readonly>
+            <button onclick="changestat()"></button>
+            <button type="submit">-</button>
+            </form>
+
         <% } %>
         <div><%= sum %></div>
     </ul>
-    
+    <a href="/other">to other</a>
 </body>
 <script>
+    
     function addgoods(str){
         console.log(str);
+    }
+    function changestat(){
+
     }
 </script>
 </html>

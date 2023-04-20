@@ -34,7 +34,15 @@ app.get('/index', (req, res) => {
   // console.log(sum)
   buy.push(addgood);
   sum += parseInt(price);
-  const data = { message: dict, goods:buy, sum:sum };
+  const data = { message: dict, goods:buy, sum:String(sum) };
+  res.render('index.ejs', data);
+});
+app.get('/delete', (req, res) => {
+  const addgood = req.query.goods;
+  const price = req.query.price;
+  buy.pop(addgood);
+  sum -= parseInt(price);
+  const data = { message: dict, goods:buy, sum:String(sum) };
   res.render('index.ejs', data);
 });
 // 正常函数若非异步，定义如下：
