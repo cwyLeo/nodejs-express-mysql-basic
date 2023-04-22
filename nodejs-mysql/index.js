@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const ejs = require('ejs');
 const mysql = require("mysql")
@@ -41,31 +42,65 @@ app.post('/login',async (req,res) => {
   prices = []
   sum = 0
   if(result.length != 0){
-    res.render('index.ejs',{message:dict,goods:buy,prices:prices,sum:String(sum),userid:userid,username:username})
+    res.redirect('/index')
+    // res.render('index.ejs',{message:dict,goods:buy,prices:prices,sum:String(sum),userid:userid,username:username})
   }
   else{
     res.redirect('/')
   }
 })
 // 定义进入127.0.0.1:3000/index时直接进入index.ejs界面
+// app.post('/index', (req, res) => {
+//   const addgood = req.body.goods;
+//   const price = req.body.price;
+//   // console.log(sum)
+//   buy.push(addgood);
+//   prices.push(price);
+//   sum += parseInt(price);
+//   const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
+//   res.render('index.ejs', data);
+//   // res.redirect(301,'/index')
+// });
+// 显示购物车页面
 app.get('/index', (req, res) => {
-  const addgood = req.query.goods;
-  const price = req.query.price;
-  // console.log(sum)
-  buy.push(addgood);
-  prices.push(price);
-  sum += parseInt(price);
+  // buy = buy || [];
+  // prices = prices || [];
+  // sum = sum || 0;
+
   const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
   res.render('index.ejs', data);
 });
+
+// 添加商品到购物车
+app.post('/add-to-cart', (req, res) => {
+  const addgood = req.body.goods;
+  const price = req.body.price;
+  
+  buy = buy || [];
+  prices = prices || [];
+  sum = sum || 0;
+  
+  buy.push(addgood);
+  prices.push(price);
+  sum += parseInt(price);
+  
+  // 跳转到购物车页面，并显示添加的商品、价格和总价
+  res.redirect('/index');
+});
+app.get('/logout',(req,res) => {
+  username = ""
+  userid = ""
+  res.redirect('/');
+})
 app.get('/delete', (req, res) => {
   const addgood = req.query.goods;
   const price = req.query.price;
   buy.splice(buy.indexOf(addgood),1);
   prices.splice(prices.indexOf(price),1);
   sum -= parseInt(price);
-  const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
-  res.render('index.ejs', data);
+  // const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
+  // res.render('index.ejs', data);
+  res.redirect('/index');
 });
 app.get('/delete2', async (req, res) => {
   const name = req.query.id;

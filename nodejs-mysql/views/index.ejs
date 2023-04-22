@@ -7,54 +7,22 @@
     <link rel="stylesheet" type="text/css" href="../style.css">
     <title>Document</title>
     <style>
-    a:link, a:visited {
-     text-decoration:none;
-     color:blue
+ input {
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid black;
  }
- #nav {
-     margin-top: 25px auto;
-     display: flex;
-     justify-content:space-between;
-     align-items: center;
-     text-align: center;
-     background-color: rgb(225, 225, 225);
+ input:focus-visible {
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
  }
- #nav li {
-     position: relative;
-     display: inline-block;
-     vertical-align: middle;
-     font-weight: bold;
-     padding: 0px 10px;
-     flex-grow: 1;
- }
- #nav>li>ul {
-     text-align: center;
-     width: 100%;
-     display: none;
-     position: absolute;
-     /* top: 24px; */
-     /* margin-top: 4px; */
-     border-top: 2px solid white;
-     left: 2px;
-     padding: 5px 0px;
-     background-color: rgb(225, 225, 225);
- }
-#nav>li:hover>ul{
- display:flex;
- justify-content: space-between;
- align-items: center;
- flex-direction: column;
-}
- #nav>li>ul>li {
-     /* padding: 5px; */
-     flex-grow: 1;
- }
- .home {
-     background: url("../images/home.gif");
-     display: inline-block;
-     background-position-y: -3px;
-     width: 30px;
-     height: 30px;
+ .sum {
+    position: absolute;
+    bottom: 1px;
+    width: 1212px;
+    background-color: white;
+    text-align: right;
  }
     </style>
 </head>
@@ -93,16 +61,26 @@
         <li><a href="xyjj/index.htm"><span>校友与基金</span></a>
         </li>
         <li>
-            <form method="POST" action="/submit-form">
+            Hello,<%= username %>
+            <!-- <a href="jyjx/index.htm"><span>加入我们</span></a> -->
+           <ul>
+              <li><a href="jyjx/jyjx01/index.htm">本科教育</a></li>
+              <li><a href="jyjx/jyjx02/index.htm">研究生教育</a></li>
+              <li><a href="jyjx/jyjx03/index.htm">国际教育</a></li>
+              <li><a href="jyjx/jyjx04/index.htm">继续教育</a></li>
+           </ul>
+           <a style="padding-left: 5px; font-size:14px; line-height: 14px; height: 14px; margin: auto;" href="/logout">登出</a>
+            <!-- <form method="POST" action="/submit-form">
                 <input type="text" id="inputData" name="inputData">
                 <button type="submit">Submit</button>
-            </form>
+            </form> -->
         </li>
        </ul>
-       <%= userid %><%= username %>
+       <!-- <%= userid %><%= username %> -->
+       
     <ul class="goodslist">
         <% for(var i=0; i< message.length; i++) { %>
-        <form action="/index" method="GET">
+        <form action="/add-to-cart" method="POST">
           <li class="musicbox">
             <input class="goods" name="goods"value="<%= message[i].name %>" readonly>
             <input type="number" class="musicname" value="<%= message[i].price %>" name="price" readonly>
@@ -112,18 +90,19 @@
     </form>
         <% } %>
     </ul>
-    <ul class="musicbox" style="clear:both; position: absolute; display:block; width:99%; margin:10px 0.5%; align-items: center; bottom: 0;">
+    <ul class="musicbox" style="clear:both; position: absolute; display:block; width:99%; margin:20px 0.5%; align-items: center; bottom: 5px; overflow-y: auto;">
         <% for(var i=0; i< goods.length; i++) { %>
-            <form action="/delete" method="get">
-            <input style="display: inline;" type="text" name="goods" value="<%= goods[i] %>" readonly>
-            <input style="display: none;" type="number" value="<%= prices[i] %>" name="price" readonly>
-            <!-- <button onclick="changestat()"></button> -->
-            <button type="submit">-</button>
+            <form action="/delete" method="get" style="display: inline;">
+                <div style="border-bottom:1px solid black; padding: 5px;">
+                    name:<input style="display: inline;" type="text" name="goods" value="<%= goods[i] %>" readonly>
+                    price:<input style="display: inline;" type="number" value="<%= prices[i] %>" name="price" readonly>
+                    <button style="width: 32px;" type="submit">删除</button>
+                </div>
             </form>
 
         <% } %>
-        <div><%= sum %></div>
     </ul>
+    <div class="sum">应支付：<%= sum %></div>
     <a href="/other">to change.html</a>
 </body>
 <script>
