@@ -122,8 +122,6 @@ app.get('/delete', (req, res) => {
   buy.splice(buy.indexOf(addgood),1);
   prices.splice(prices.indexOf(price),1);
   sum -= parseInt(price);
-  // const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
-  // res.render('index.ejs', data);
   res.redirect('/index');
 });
 app.get('/delete2', async (req, res) => {
