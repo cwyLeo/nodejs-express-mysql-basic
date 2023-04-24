@@ -20,9 +20,9 @@
             padding: 12px;
             font-size: 20px;
         }
-        #msgbox1 button,a{
+        #msgbox1 button{
             position: relative;
-            left: 40%;
+            left: 50%;
             transform: translate(-50%);
             border: 1px solid black;
             background-color: #fff;
@@ -49,13 +49,27 @@
     <form action="/login" method="post">
         <label for="user">username:<input type="text" name="username"></label>
         <label for="pwd">password:<input type="password" name="pwd"></label>
-        <button type="submit">登录</button>
-        <a href="/reg">注册</a>
+        <label style="padding-left: 40px; display:none;" for="sex">
+            性别：
+            <select style="text-align: center; width:170px;" name="sex" id="sex">
+                <option value="male">male</option>
+                <option value="female">female</option>
+            </select>
+        </label>
+        <label style="padding-left: 40px; display:none;" for="salary">
+            工资：
+            <input type="number" name="salary" id="salary">
+        </label>
+        <button id="button" type="submit">登录</button>
+        <!-- <a href="/reg">注册</a> -->
     </form>
 </div>  
 <script>
     var login = document.getElementById("login");
     var reg = document.getElementById("reg");
+    var button = document.getElementById("button");
+    var sexlabel = document.querySelector("label[for='sex']");
+    var salarylabel = document.querySelector("label[for='salary']");
     function tologin(){
         const hasPhoneInput = document.querySelector('input[name="phone"]');
         login.classList.add('selected');
@@ -65,6 +79,10 @@
         if(hasPhoneInput){
             hasPhoneInput.parentNode.parentNode.removeChild(hasPhoneInput.parentNode);
         }
+        button.innerText = "登录";
+        button.parentNode.action = "/login";
+        sexlabel.style.display = "none";
+        salarylabel.style.display = "none";
     }
     function toreg(){
         const hasPhoneInput = document.querySelector('input[name="phone"]');
@@ -80,8 +98,13 @@
             const labelText = document.createTextNode('电话号码：');
             label.appendChild(labelText);
             label.appendChild(input);
-            document.querySelector('input[name="pwd"]').parentNode.appendChild(label);
+            document.querySelector('input[name="pwd"]').parentNode.parentNode.insertBefore(label,document.querySelector('input[name="pwd"]').parentNode.nextSibling);
         }
+        button.innerText = "注册";
+        button.parentNode.action = "/reg";
+        sexlabel.style.display = "block";
+        salarylabel.style.display = "block";
+
     }
     function pos(){
         var msgbox=document.getElementById("msgbox1");

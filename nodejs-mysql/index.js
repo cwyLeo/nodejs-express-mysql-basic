@@ -49,6 +49,30 @@ app.post('/login',async (req,res) => {
     res.redirect('/')
   }
 })
+app.post('/reg',async (req,res) => {
+  username = req.body.username;
+  userid = req.body.pwd;
+  phone = req.body.phone;
+  salary = req.body.salary;
+  sex = req.body.sex;
+  const isadded = await querycust2(req.body.username);
+  if(isadded.length!=0){
+    // alert("name has existed!");
+    res.redirect('/');
+    return;
+  }
+  const result = await addCustomer(req.body.username,req.body.pwd,phone,salary,sex);
+  buy = []
+  prices = []
+  sum = 0
+  if(result.length != 0){
+    res.redirect('/index')
+    // res.render('index.ejs',{message:dict,goods:buy,prices:prices,sum:String(sum),userid:userid,username:username})
+  }
+  else{
+    res.redirect('/')
+  }
+})
 // 定义进入127.0.0.1:3000/index时直接进入index.ejs界面
 // app.post('/index', (req, res) => {
 //   const addgood = req.body.goods;
@@ -155,6 +179,22 @@ function querycar(str) {
     return new Promise((resolve, reject) => {
       connection.query('delete FROM car where name = ?',[id], (err, results) => {
         if (err) reject(err);
+        resolve(results);
+      });
+    });
+  }
+  function querycust2(name) {
+    return new Promise((resolve, reject) => {
+      connection.query('SELECT * FROM customer where name = ' + '"' + name + '"', (err, results) => {
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  }
+  function addCustomer(name,id,phone,salary,sex) {
+    return new Promise((resolve,reject) => {
+      connection.query('insert into customer(id,name,sex,phone,salary) values(?,"?","?","?",?)',[id,name,sex,phone,salary],(err,results) => {
+        if(err) reject(err);
         resolve(results);
       });
     });
