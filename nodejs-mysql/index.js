@@ -90,13 +90,18 @@ app.get('/index', (req, res) => {
   // buy = buy || [];
   // prices = prices || [];
   // sum = sum || 0;
-
+  if(username == "") {
+    res.redirect('/');
+  }
   const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
   res.render('index.ejs', data);
 });
 
 // 添加商品到购物车
 app.post('/add-to-cart', (req, res) => {
+  if(username == "") {
+    res.redirect('/');
+  }
   const addgood = req.body.goods;
   const price = req.body.price;
   
@@ -117,6 +122,9 @@ app.get('/logout',(req,res) => {
   res.redirect('/');
 })
 app.get('/delete', (req, res) => {
+  if(username == "") {
+    res.redirect('/');
+  }
   const addgood = req.query.goods;
   const price = req.query.price;
   buy.splice(buy.indexOf(addgood),1);
@@ -125,6 +133,9 @@ app.get('/delete', (req, res) => {
   res.redirect('/index');
 });
 app.get('/delete2', async (req, res) => {
+  if(username == "") {
+    res.redirect('/');
+  }
   const name = req.query.id;
   const deletePromise =await deleteCar(name);
   const queryPromise =await queryAllCar();
@@ -132,6 +143,9 @@ app.get('/delete2', async (req, res) => {
 });
 
 app.get('/other',(req,res) => {
+  if(username == "") {
+    res.redirect('/');
+  }
     res.render('edit.ejs',{username:username,userid:userid,cars:dict});
 })
 app.post('/edit',async (req,res) => {
