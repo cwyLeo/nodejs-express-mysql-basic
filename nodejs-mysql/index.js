@@ -29,7 +29,6 @@ var userid = ""
 connection.query('SELECT * FROM car', (err, results) => {
     if (err) throw err;
     dict = results
-    // console.log(results);
 });
 app.get('/',(req,res) => {
   res.render('login.ejs');
