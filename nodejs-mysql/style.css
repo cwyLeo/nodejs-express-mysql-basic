@@ -20,8 +20,15 @@ a:link, a:visited {
     text-decoration:none;
     /* color:blue */
 }
+button {
+    transition: 0.3s;
+}
+button:hover {
+    background-color: skyblue;
+}
 #nav {
     margin-top: 25px auto;
+    margin-bottom:5px;
     display: flex;
     justify-content:space-between;
     align-items: center;
