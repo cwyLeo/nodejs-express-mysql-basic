@@ -75,6 +75,9 @@ flex-direction: column;
     /* flex-wrap:wrap; */
     flex-flow: wrap;
 }
+.goodslist form li {
+    background-color: skyblue;
+}
 .musicbox{
     display: inline-block;
     /* display: flexbox;
@@ -88,6 +91,7 @@ flex-direction: column;
     overflow: hidden;
     flex-grow: 1;
     text-align: center;
+    background-color: rgb(161, 209, 239);
 }
 .sub2{
     height: 100px;

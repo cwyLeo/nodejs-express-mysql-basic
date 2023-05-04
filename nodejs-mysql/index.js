@@ -4,6 +4,17 @@ const app = express();
 const ejs = require('ejs');
 const mysql = require("mysql")
 
+app.use(session({
+    secret : 'Your_Secret_Key',
+    resave : false,
+    saveUninitialized: false
+}));
+app.use(function (req, res, next) {
+  res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.header("Pragma", "no-cache");
+  res.header("Expires", "0");
+  next();
+});
 // 解析http请求的表单数据
 app.use(express.urlencoded({ extended: true }));
 // 为其客户端提供静态资源文件
@@ -41,11 +52,12 @@ app.post('/login',async (req,res) => {
   prices = []
   sum = 0
   if(result.length != 0){
+    req.session.user = {"name":username};
     res.redirect('/index')
     // res.render('index.ejs',{message:dict,goods:buy,prices:prices,sum:String(sum),userid:userid,username:username})
   }
   else{
-    res.redirect('/')
+    res.redirect('/');
   }
 })
 app.post('/reg',async (req,res) => {
@@ -89,7 +101,7 @@ app.get('/index', (req, res) => {
   // buy = buy || [];
   // prices = prices || [];
   // sum = sum || 0;
-  if(username == "") {
+  if(username == ""||req.session.user==null) {
     res.redirect('/');
   }
   const data = { message: dict, goods:buy, prices:prices, sum:String(sum),userid:userid,username:username };
@@ -118,7 +130,31 @@ app.post('/add-to-cart', (req, res) => {
 app.get('/logout',(req,res) => {
   username = ""
   userid = ""
+// 检查 session 是否存在
+if (req.session) {
+  // 销毁 session
+  req.session.destroy(function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      // 设置响应头
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); 
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+
+      // 清除 cookie
+      res.clearCookie('authToken');
+
+      // 重定向到登录页面
+      res.redirect('/');
+    }
+  });
+} else {
+  // session 不存在
+  console.log('Session does not exist.');
+  // 重定向到登录页面
   res.redirect('/');
+}
 })
 app.get('/delete', (req, res) => {
   if(username == "") {
